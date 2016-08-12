@@ -21,12 +21,12 @@ instance Functor (Hashed m) where
 
 instance Applicative (Hashed m) where
   pure = HPure
-  (<*>) (HPure f) x = fmap f x
-  (<*>) (H s h f) x = H s h ((<*> x) . f)
+  HPure f <*> x = fmap f x
+  H s h f <*> x = H s h ((<*> x) . f)
 
 instance Monad (Hashed m) where
-  (>>=) (HPure x) f = f x
-  (>>=) (H s h g) f = H s h ((>>= f) . g)
+  HPure x >>= f = f x
+  H s h g >>= f = H s h ((>>= f) . g)
 
 unhash :: (Monad m) => Hashed m a -> m (Maybe a)
 unhash (HPure a) = pure (Just a)
