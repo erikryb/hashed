@@ -6,6 +6,7 @@ stdenv.mkDerivation {
   buildInputs = [
     (haskellPackages.ghcWithPackages
       (pkgs: with pkgs; [
+        free
         pureMD5
       ]))
   ];
