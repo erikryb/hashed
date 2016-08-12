@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveFunctor #-}
+
 module Hashed (
   Hashed
  ,unhash
@@ -14,10 +16,7 @@ verifyHash h s
   | show (hash s :: MD5Digest) == h = Just s
   | otherwise   = Nothing
 
-data Verified m next = H (m ByteString) String (ByteString -> next)
-
-instance Functor (Verified m) where
-  fmap f (H s h x) = H s h (f.x)
+data Verified m next = H (m ByteString) String (ByteString -> next) deriving (Functor)
 
 type Hashed m = Free (Verified m)
 
